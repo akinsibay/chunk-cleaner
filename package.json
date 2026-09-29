@@ -1,7 +1,7 @@
 {
   "name": "chunkcleaner",
   "productName": "ChunkCleaner",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A small macOS app that finds large, regenerable dependency and build folders (node_modules, target, .venv, Pods, …) and moves them to the Trash.",
   "license": "MIT",
   "author": "Akin Sibay",
