@@ -36,18 +36,21 @@ export function TrashIcon() {
 
 export function LogoMark() {
   return (
-    <svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true">
+    <svg width="36" height="36" viewBox="100 100 824 824" aria-hidden="true">
       <defs>
         <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#8b5cf6" />
-          <stop offset="1" stopColor="#22b8dc" />
+          <stop offset="0" stopColor="#0f9fb0" />
+          <stop offset="1" stopColor="#2fd48a" />
         </linearGradient>
       </defs>
-      <rect width="64" height="64" rx="16" fill="url(#logo-gradient)" />
-      <path d="M20 22h24l-2 28a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4z" fill="#fff" />
-      <rect x="16" y="15" width="32" height="5" rx="2.5" fill="#fff" />
-      <rect x="27" y="10" width="10" height="5" rx="2" fill="#fff" />
-      <path d="M28 28v18M36 28v18" stroke="#7c5cff" strokeWidth="3" strokeLinecap="round" />
+      <rect x="100" y="100" width="824" height="824" rx="186" fill="url(#logo-gradient)" />
+      <path d="M300 250 L548 498" stroke="#fff" strokeWidth="46" strokeLinecap="round" />
+      <path d="M520 470 L600 550 L478 780 Q420 800 380 760 L300 680 Q262 640 282 584Z" fill="#fff" />
+      <g fill="#fff">
+        <rect x="640" y="660" width="80" height="80" rx="16" transform="rotate(14 680 700)" />
+        <rect x="742" y="586" width="58" height="58" rx="12" transform="rotate(-16 771 615)" opacity="0.85" />
+        <rect x="740" y="726" width="44" height="44" rx="10" transform="rotate(28 762 748)" opacity="0.7" />
+      </g>
     </svg>
   );
 }

@@ -43,7 +43,7 @@ function createWindow(): BrowserWindow {
     titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 18, y: 18 },
     // Matches --bg-base so there is no white flash before the page paints.
-    backgroundColor: nativeTheme.shouldUseDarkColors ? '#120f1d' : '#f4f2fb',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#0c1614' : '#f1f7f5',
     webPreferences: {
       preload: PRELOAD,
       contextIsolation: true,

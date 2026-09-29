@@ -34,12 +34,12 @@
   background: var(--accent-gradient);
   border-color: transparent;
   color: var(--accent-text);
-  box-shadow: 0 6px 18px rgb(124 92 255 / 35%);
+  box-shadow: 0 6px 18px rgb(11 147 168 / 35%);
 }
 
 .primary:hover:not(:disabled) {
   background: var(--accent-gradient);
-  box-shadow: 0 8px 24px rgb(124 92 255 / 50%);
+  box-shadow: 0 8px 24px rgb(11 147 168 / 50%);
 }
 
 .danger {

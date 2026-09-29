@@ -24,8 +24,8 @@ export function ScanningView({ progress, onCancel }: ScanningViewProps) {
           <svg viewBox="0 0 180 180" aria-hidden="true">
             <defs>
               <linearGradient id="scan-gradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#8b5cf6" />
-                <stop offset="1" stopColor="#22b8dc" />
+                <stop offset="0" stopColor="#0f9fb0" />
+                <stop offset="1" stopColor="#2fd48a" />
               </linearGradient>
             </defs>
             <circle className={styles.track} cx="90" cy="90" r={RADIUS} fill="none" strokeWidth="10" />

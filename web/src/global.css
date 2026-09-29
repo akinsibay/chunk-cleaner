@@ -1,28 +1,28 @@
 :root {
-  --bg-base: #f4f2fb;
-  --bg-glow-1: rgb(139 92 246 / 22%);
-  --bg-glow-2: rgb(34 195 230 / 20%);
+  --bg-base: #f1f7f5;
+  --bg-glow-1: rgb(15 159 176 / 20%);
+  --bg-glow-2: rgb(47 212 138 / 18%);
   --glass: rgb(255 255 255 / 62%);
   --glass-strong: rgb(255 255 255 / 82%);
   --glass-hover: rgb(255 255 255 / 92%);
-  --glass-border: rgb(30 20 70 / 9%);
+  --glass-border: rgb(10 50 45 / 9%);
   --sidebar: rgb(255 255 255 / 45%);
-  --popover: #fcfbff;
-  --text: #1c1830;
-  --text-muted: rgb(28 24 48 / 58%);
-  --text-faint: rgb(28 24 48 / 38%);
-  --accent: #7c5cff;
-  --accent-2: #22b8dc;
-  --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #22b8dc 100%);
+  --popover: #fbfefd;
+  --text: #0f1f1c;
+  --text-muted: rgb(15 31 28 / 58%);
+  --text-faint: rgb(15 31 28 / 38%);
+  --accent: #0b93a8;
+  --accent-2: #16a874;
+  --accent-gradient: linear-gradient(135deg, #0b93a8 0%, #16a874 100%);
   --accent-text: #ffffff;
   --danger: #f0445a;
   --danger-gradient: linear-gradient(135deg, #ff4d6d 0%, #ff8a4c 100%);
   --danger-text: #ffffff;
   --warning-bg: rgb(255 196 61 / 18%);
   --warning-border: rgb(214 150 0 / 35%);
-  --focus: #7c5cff;
-  --shadow: 0 10px 30px rgb(40 20 90 / 12%);
-  --shadow-strong: 0 24px 60px rgb(40 20 90 / 25%);
+  --focus: #0b93a8;
+  --shadow: 0 10px 30px rgb(10 60 55 / 12%);
+  --shadow-strong: 0 24px 60px rgb(10 60 55 / 25%);
   --radius: 14px;
   --radius-sm: 10px;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
@@ -34,22 +34,22 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-base: #120f1d;
-    --bg-glow-1: rgb(124 77 255 / 38%);
-    --bg-glow-2: rgb(18 160 190 / 30%);
+    --bg-base: #0c1614;
+    --bg-glow-1: rgb(15 159 176 / 32%);
+    --bg-glow-2: rgb(47 212 138 / 22%);
     --glass: rgb(255 255 255 / 6%);
     --glass-strong: rgb(255 255 255 / 10%);
     --glass-hover: rgb(255 255 255 / 14%);
     --glass-border: rgb(255 255 255 / 10%);
-    --sidebar: rgb(10 8 20 / 35%);
-    --popover: #231e35;
-    --text: #f4f2ff;
-    --text-muted: rgb(244 242 255 / 62%);
-    --text-faint: rgb(244 242 255 / 38%);
-    --accent: #9b7bff;
+    --sidebar: rgb(4 12 11 / 35%);
+    --popover: #16231f;
+    --text: #eefaf6;
+    --text-muted: rgb(238 250 246 / 62%);
+    --text-faint: rgb(238 250 246 / 38%);
+    --accent: #34c9b4;
     --warning-bg: rgb(255 196 61 / 12%);
     --warning-border: rgb(255 196 61 / 28%);
-    --focus: #a98cff;
+    --focus: #5fe0cb;
     --shadow: 0 10px 30px rgb(0 0 0 / 30%);
     --shadow-strong: 0 24px 60px rgb(0 0 0 / 50%);
   }

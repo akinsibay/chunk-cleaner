@@ -39,9 +39,9 @@
   letter-spacing: 0.02em;
   background: var(--accent-gradient);
   box-shadow:
-    0 0 0 10px rgb(139 92 246 / 12%),
-    0 0 0 22px rgb(139 92 246 / 6%),
-    0 20px 60px rgb(124 92 255 / 45%);
+    0 0 0 10px rgb(15 159 176 / 12%),
+    0 0 0 22px rgb(15 159 176 / 6%),
+    0 20px 60px rgb(11 147 168 / 45%);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -50,9 +50,9 @@
 .scanButton:hover:not(:disabled) {
   transform: scale(1.04);
   box-shadow:
-    0 0 0 12px rgb(139 92 246 / 16%),
-    0 0 0 28px rgb(139 92 246 / 8%),
-    0 24px 70px rgb(124 92 255 / 55%);
+    0 0 0 12px rgb(15 159 176 / 16%),
+    0 0 0 28px rgb(15 159 176 / 8%),
+    0 24px 70px rgb(11 147 168 / 55%);
 }
 
 .scanButton:active:not(:disabled) {
