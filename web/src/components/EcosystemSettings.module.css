@@ -37,6 +37,23 @@
   font-weight: 600;
 }
 
+.tag {
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-border);
+}
+
+.note {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .condition {
   font-size: 12px;
   color: var(--text-muted);

@@ -127,6 +127,19 @@ describe('IPC handlers', () => {
     await expect(handlers.startScan(join(root, 'projects'))).rejects.toThrow('All ecosystems are turned off');
   });
 
+  it('skips Composer until the user turns it on', async () => {
+    await touch(join(root, 'projects', 'site', 'composer.json'));
+    await touch(join(root, 'projects', 'site', 'vendor', 'autoload.php'));
+    await handlers.updateSettings({ minSizeMB: 0, includeRecentProjects: true });
+
+    const off = await waitForScan((await handlers.startScan(join(root, 'projects'))).scanId);
+    expect(off.items).toEqual([]);
+
+    await handlers.updateSettings({ enabledEcosystems: ['Composer'] });
+    const on = await waitForScan((await handlers.startScan(join(root, 'projects'))).scanId);
+    expect(on.items.map((item) => item.ecosystem)).toEqual(['Composer']);
+  });
+
   it('validates the list of turned-off ecosystems', async () => {
     await expect(handlers.updateSettings({ disabledEcosystems: 'Node.js' })).rejects.toBeInstanceOf(IpcUserError);
     await expect(handlers.updateSettings({ disabledEcosystems: [42] })).rejects.toBeInstanceOf(IpcUserError);

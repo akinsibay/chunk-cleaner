@@ -1,4 +1,23 @@
-export type EcosystemTone = 'node' | 'rust' | 'maven' | 'python' | 'unity' | 'cocoapods' | 'next' | 'gradle' | 'dotnet' | 'other';
+export type EcosystemTone =
+  | 'node'
+  | 'rust'
+  | 'maven'
+  | 'python'
+  | 'unity'
+  | 'cocoapods'
+  | 'next'
+  | 'gradle'
+  | 'dotnet'
+  | 'flutter'
+  | 'angular'
+  | 'swift'
+  | 'nuxt'
+  | 'svelte'
+  | 'turbo'
+  | 'parcel'
+  | 'terraform'
+  | 'composer'
+  | 'other';
 
 interface EcosystemMeta {
   abbreviation: string;
@@ -15,6 +34,15 @@ const ECOSYSTEMS: Record<string, EcosystemMeta> = {
   'Next.js': { abbreviation: 'N', tone: 'next' },
   Gradle: { abbreviation: 'GR', tone: 'gradle' },
   '.NET': { abbreviation: 'NET', tone: 'dotnet' },
+  Flutter: { abbreviation: 'FL', tone: 'flutter' },
+  Angular: { abbreviation: 'NG', tone: 'angular' },
+  'Swift PM': { abbreviation: 'SW', tone: 'swift' },
+  Nuxt: { abbreviation: 'NU', tone: 'nuxt' },
+  SvelteKit: { abbreviation: 'SV', tone: 'svelte' },
+  Turborepo: { abbreviation: 'TB', tone: 'turbo' },
+  Parcel: { abbreviation: 'PC', tone: 'parcel' },
+  Terraform: { abbreviation: 'TF', tone: 'terraform' },
+  Composer: { abbreviation: 'PHP', tone: 'composer' },
 };
 
 export function ecosystemMeta(ecosystem: string): EcosystemMeta {

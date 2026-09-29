@@ -1,5 +1,12 @@
 import { useEffect, useState, type FormEvent, type KeyboardEvent } from 'react';
-import { SETTINGS_LIMITS, type AppInfo, type EcosystemInfo, type Settings } from '../../../src/shared/api';
+import {
+  SETTINGS_LIMITS,
+  isEcosystemEnabled,
+  setEcosystemEnabled,
+  type AppInfo,
+  type EcosystemInfo,
+  type Settings,
+} from '../../../src/shared/api';
 import { errorMessage } from '../api/client';
 import { Button } from './Button';
 import { EcosystemSettings } from './EcosystemSettings';
@@ -30,7 +37,7 @@ type TabId = (typeof TABS)[number]['id'];
 
 type Draft = Pick<
   Settings,
-  'minSizeMB' | 'minProjectAgeDays' | 'includeRecentProjects' | 'checkForUpdates' | 'disabledEcosystems'
+  'minSizeMB' | 'minProjectAgeDays' | 'includeRecentProjects' | 'checkForUpdates' | 'disabledEcosystems' | 'enabledEcosystems'
 > & {
   openAtLogin: boolean;
 };
@@ -62,6 +69,7 @@ export function SettingsDialog({
         includeRecentProjects: settings.includeRecentProjects,
         checkForUpdates: settings.checkForUpdates,
         disabledEcosystems: settings.disabledEcosystems,
+        enabledEcosystems: settings.enabledEcosystems,
         openAtLogin: appInfo?.openAtLogin ?? false,
       });
       setError(null);
@@ -72,15 +80,10 @@ export function SettingsDialog({
   const setAge = (value: number) =>
     setDraft((d) => ({ ...d, minProjectAgeDays: clamp(value, SETTINGS_LIMITS.minProjectAgeDays) }));
 
-  const toggleEcosystem = (ecosystem: string, enabled: boolean) =>
-    setDraft((d) => ({
-      ...d,
-      disabledEcosystems: enabled
-        ? d.disabledEcosystems.filter((name) => name !== ecosystem)
-        : [...d.disabledEcosystems, ecosystem],
-    }));
+  const toggleEcosystem = (info: EcosystemInfo, enabled: boolean) =>
+    setDraft((d) => ({ ...d, ...setEcosystemEnabled(info, d, enabled) }));
 
-  const allEcosystemsOff = ecosystems !== null && ecosystems.every((entry) => draft.disabledEcosystems.includes(entry.ecosystem));
+  const allEcosystemsOff = ecosystems !== null && ecosystems.every((entry) => !isEcosystemEnabled(entry, draft));
 
   const moveTab = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
@@ -212,12 +215,7 @@ export function SettingsDialog({
           className={styles.panel}
           hidden={tab !== 'ecosystems'}
         >
-          <EcosystemSettings
-            ecosystems={ecosystems}
-            error={ecosystemsError}
-            disabled={draft.disabledEcosystems}
-            onToggle={toggleEcosystem}
-          />
+          <EcosystemSettings ecosystems={ecosystems} error={ecosystemsError} overrides={draft} onToggle={toggleEcosystem} />
         </div>
 
         <div

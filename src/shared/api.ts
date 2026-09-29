@@ -8,6 +8,8 @@ export interface Settings {
   checkForUpdates: boolean;
   /** Ecosystems the user turned off; new ecosystems are on by default. */
   disabledEcosystems: string[];
+  /** Off-by-default ecosystems (such as Composer) the user turned on. */
+  enabledEcosystems: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -17,6 +19,7 @@ export const DEFAULT_SETTINGS: Settings = {
   includeRecentProjects: false,
   checkForUpdates: true,
   disabledEcosystems: [],
+  enabledEcosystems: [],
 };
 
 export const SETTINGS_LIMITS = {
@@ -73,6 +76,33 @@ export interface EcosystemInfo {
   ecosystem: string;
   folderNames: string[];
   conditions: string[];
+  defaultEnabled: boolean;
+  note: string | null;
+}
+
+export type EcosystemOverrides = Pick<Settings, 'disabledEcosystems' | 'enabledEcosystems'>;
+
+/** Whether an ecosystem is scanned, given the user's two override lists. */
+export function isEcosystemEnabled(
+  info: Pick<EcosystemInfo, 'ecosystem' | 'defaultEnabled'>,
+  overrides: EcosystemOverrides,
+): boolean {
+  if (overrides.disabledEcosystems.includes(info.ecosystem)) return false;
+  return info.defaultEnabled || overrides.enabledEcosystems.includes(info.ecosystem);
+}
+
+/** Returns override lists with the ecosystem switched on or off, touching only the list its default needs. */
+export function setEcosystemEnabled(
+  info: Pick<EcosystemInfo, 'ecosystem' | 'defaultEnabled'>,
+  overrides: EcosystemOverrides,
+  enabled: boolean,
+): EcosystemOverrides {
+  const without = (list: string[]) => list.filter((name) => name !== info.ecosystem);
+  const disabledEcosystems = without(overrides.disabledEcosystems);
+  const enabledEcosystems = without(overrides.enabledEcosystems);
+  if (info.defaultEnabled)
+    return { disabledEcosystems: enabled ? disabledEcosystems : [...disabledEcosystems, info.ecosystem], enabledEcosystems };
+  return { disabledEcosystems, enabledEcosystems: enabled ? [...enabledEcosystems, info.ecosystem] : enabledEcosystems };
 }
 
 export interface UpdateInfo {

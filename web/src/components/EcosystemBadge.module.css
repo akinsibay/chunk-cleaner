@@ -56,6 +56,43 @@
   letter-spacing: -0.02em;
 }
 
+.flutter {
+  background: linear-gradient(135deg, #54c5f8, #0175c2);
+}
+
+.angular {
+  background: linear-gradient(135deg, #f0325c, #b1003a);
+}
+
+.swift {
+  background: linear-gradient(135deg, #fa7343, #e0351f);
+}
+
+.nuxt {
+  background: linear-gradient(135deg, #00dc82, #00925a);
+}
+
+.svelte {
+  background: linear-gradient(135deg, #ff6a33, #d93600);
+}
+
+.turbo {
+  background: linear-gradient(135deg, #ff1e56, #0096ff);
+}
+
+.parcel {
+  background: linear-gradient(135deg, #f4c05a, #c7822b);
+}
+
+.terraform {
+  background: linear-gradient(135deg, #9a5ddb, #5c4ee5);
+}
+
+.composer {
+  background: linear-gradient(135deg, #8a93c9, #4f5b93);
+  letter-spacing: -0.02em;
+}
+
 .other {
   background: linear-gradient(135deg, #64748b, #334155);
 }

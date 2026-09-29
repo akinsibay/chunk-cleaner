@@ -51,14 +51,15 @@ function parsePatch(patch: unknown): Partial<Settings> {
         break;
       }
       case 'disabledEcosystems':
+      case 'enabledEcosystems':
         if (
           !Array.isArray(value) ||
           value.length > MAX_ECOSYSTEMS ||
           !value.every((name) => typeof name === 'string' && name.length > 0 && name.length <= MAX_ECOSYSTEM_NAME)
         ) {
-          throw new SettingsValidationError('disabledEcosystems must be a list of ecosystem names.');
+          throw new SettingsValidationError(`${key} must be a list of ecosystem names.`);
         }
-        result.disabledEcosystems = [...new Set(value as string[])];
+        result[key] = [...new Set(value as string[])];
         break;
       case 'includeRecentProjects':
       case 'checkForUpdates':

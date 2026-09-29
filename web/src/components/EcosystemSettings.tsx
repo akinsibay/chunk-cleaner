@@ -1,12 +1,12 @@
-import type { EcosystemInfo } from '../../../src/shared/api';
+import { isEcosystemEnabled, type EcosystemInfo, type EcosystemOverrides } from '../../../src/shared/api';
 import { EcosystemBadge } from './EcosystemBadge';
 import styles from './EcosystemSettings.module.css';
 
 interface EcosystemSettingsProps {
   ecosystems: EcosystemInfo[] | null;
   error: string | null;
-  disabled: readonly string[];
-  onToggle: (ecosystem: string, enabled: boolean) => void;
+  overrides: EcosystemOverrides;
+  onToggle: (ecosystem: EcosystemInfo, enabled: boolean) => void;
 }
 
 /** Renders "bin or obj with a *.csproj file next to it" with the folder names in code style. */
@@ -28,7 +28,7 @@ function Condition({ text, folderNames }: { text: string; folderNames: string[] 
   );
 }
 
-export function EcosystemSettings({ ecosystems, error, disabled, onToggle }: EcosystemSettingsProps) {
+export function EcosystemSettings({ ecosystems, error, overrides, onToggle }: EcosystemSettingsProps) {
   if (error) {
     return (
       <p className={styles.error} role="alert">
@@ -38,7 +38,7 @@ export function EcosystemSettings({ ecosystems, error, disabled, onToggle }: Eco
   }
   if (!ecosystems) return <p className={styles.summary}>Loading ecosystems…</p>;
 
-  const enabledCount = ecosystems.filter((entry) => !disabled.includes(entry.ecosystem)).length;
+  const enabledCount = ecosystems.filter((entry) => isEcosystemEnabled(entry, overrides)).length;
 
   return (
     <>
@@ -48,7 +48,7 @@ export function EcosystemSettings({ ecosystems, error, disabled, onToggle }: Eco
       </p>
       <ul className={styles.list}>
         {ecosystems.map((entry) => {
-          const enabled = !disabled.includes(entry.ecosystem);
+          const enabled = isEcosystemEnabled(entry, overrides);
           const id = `ecosystem-${entry.ecosystem.replace(/\W/g, '')}`;
           return (
             <li key={entry.ecosystem} className={`${styles.item} ${enabled ? '' : styles.off}`}>
@@ -56,12 +56,14 @@ export function EcosystemSettings({ ecosystems, error, disabled, onToggle }: Eco
               <div className={styles.text}>
                 <label htmlFor={id} className={styles.name}>
                   {entry.ecosystem}
+                  {!entry.defaultEnabled && <span className={styles.tag}>Off by default</span>}
                 </label>
                 {entry.conditions.map((condition) => (
                   <span key={condition} className={styles.condition}>
                     <Condition text={condition} folderNames={entry.folderNames} />
                   </span>
                 ))}
+                {entry.note && <span className={styles.note}>{entry.note}</span>}
               </div>
               <input
                 id={id}
@@ -69,7 +71,7 @@ export function EcosystemSettings({ ecosystems, error, disabled, onToggle }: Eco
                 role="switch"
                 className={styles.switch}
                 checked={enabled}
-                onChange={(event) => onToggle(entry.ecosystem, event.target.checked)}
+                onChange={(event) => onToggle(entry, event.target.checked)}
               />
             </li>
           );
