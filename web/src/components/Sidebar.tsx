@@ -11,13 +11,26 @@ interface SidebarProps {
   locked: boolean;
   busy: boolean;
   breakdown: EcosystemTotal[];
+  filter: string | null;
+  onFilter: (ecosystem: string) => void;
   onFolderChange: (folder: string) => void;
   onChooseFolder: () => void;
   onScan: () => void;
   onOpenSettings: () => void;
 }
 
-export function Sidebar({ folder, locked, busy, breakdown, onFolderChange, onChooseFolder, onScan, onOpenSettings }: SidebarProps) {
+export function Sidebar({
+  folder,
+  locked,
+  busy,
+  breakdown,
+  filter,
+  onFilter,
+  onFolderChange,
+  onChooseFolder,
+  onScan,
+  onOpenSettings,
+}: SidebarProps) {
   const submit = (event: FormEvent) => {
     event.preventDefault();
     if (!locked && folder.trim() !== '') onScan();
@@ -62,11 +75,19 @@ export function Sidebar({ folder, locked, busy, breakdown, onFolderChange, onCho
           </h2>
           <ul className={styles.breakdown}>
             {breakdown.map((entry) => (
-              <li key={entry.ecosystem} className={styles.breakdownItem}>
-                <EcosystemBadge ecosystem={entry.ecosystem} small />
-                <span className={styles.breakdownName}>{entry.ecosystem}</span>
-                <span className={styles.breakdownCount}>{entry.count}</span>
-                <span className={styles.breakdownSize}>{formatBytes(entry.sizeBytes)}</span>
+              <li key={entry.ecosystem}>
+                <button
+                  type="button"
+                  className={styles.breakdownItem}
+                  aria-pressed={filter === entry.ecosystem}
+                  title={filter === entry.ecosystem ? 'Show all ecosystems' : `Show only ${entry.ecosystem}`}
+                  onClick={() => onFilter(entry.ecosystem)}
+                >
+                  <EcosystemBadge ecosystem={entry.ecosystem} small />
+                  <span className={styles.breakdownName}>{entry.ecosystem}</span>
+                  <span className={styles.breakdownCount}>{entry.count}</span>
+                  <span className={styles.breakdownSize}>{formatBytes(entry.sizeBytes)}</span>
+                </button>
               </li>
             ))}
           </ul>

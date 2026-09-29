@@ -36,3 +36,22 @@
   font-family: ui-monospace, 'SF Mono', Menlo, monospace;
   font-size: 12px;
 }
+
+.filter {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.clear {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clear:hover {
+  text-decoration: underline;
+}

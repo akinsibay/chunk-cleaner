@@ -54,7 +54,7 @@ xattr -dr com.apple.quarantine /Applications/ChunkCleaner.app
 ## Usage
 
 1. Click **Choose Folder…** (or type a path such as `~/Projects`) and press the big **Scan** button. You can cancel at any time.
-2. Review the list. Sort by any column; right-click a row for **Show in Finder**.
+2. Review the list. Sort by any column; right-click a row for **Show in Finder**. Click an ecosystem under **Found** in the sidebar to show only that ecosystem (click it again to show all). Only visible rows are moved to the Trash.
 3. Tick the folders you want gone and click **Move to Trash**. You'll see how many folders and how much space before anything happens.
 
 Closing the window keeps ChunkCleaner in the menu bar, where it shows your last scan. Quit with **⌘Q** or from the menu bar icon.

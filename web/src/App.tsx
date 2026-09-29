@@ -96,7 +96,15 @@ export function App() {
     }
     return (
       <>
-        <ResultsHeader root={scan.root} count={items.length} totalBytes={results.totalBytes} disabled={!canScan} onRescan={startScan} />
+        <ResultsHeader
+          root={scan.root}
+          count={items.length}
+          totalBytes={results.totalBytes}
+          filter={results.ecosystemFilter}
+          disabled={!canScan}
+          onRescan={startScan}
+          onClearFilter={results.clearFilter}
+        />
         <ResultsTable
           root={scan.root}
           items={results.sorted}
@@ -108,7 +116,8 @@ export function App() {
           onReveal={reveal}
         />
         <BottomBar
-          totalCount={items.length}
+          totalCount={results.visibleCount}
+          filter={results.ecosystemFilter}
           checkedCount={results.checkedItems.length}
           checkedBytes={results.checkedBytes}
           busy={trashState.busy}
@@ -125,6 +134,8 @@ export function App() {
         locked={scanning}
         busy={busy}
         breakdown={results.breakdown}
+        filter={results.ecosystemFilter}
+        onFilter={results.toggleFilter}
         onFolderChange={folderState.setFolder}
         onChooseFolder={() => void folderState.choose()}
         onScan={startScan}

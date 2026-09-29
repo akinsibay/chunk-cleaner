@@ -7,11 +7,13 @@ interface ResultsHeaderProps {
   root: string;
   count: number;
   totalBytes: number;
+  filter: string | null;
   disabled: boolean;
   onRescan: () => void;
+  onClearFilter: () => void;
 }
 
-export function ResultsHeader({ root, count, totalBytes, disabled, onRescan }: ResultsHeaderProps) {
+export function ResultsHeader({ root, count, totalBytes, filter, disabled, onRescan, onClearFilter }: ResultsHeaderProps) {
   return (
     <header className={styles.header}>
       <div>
@@ -23,6 +25,14 @@ export function ResultsHeader({ root, count, totalBytes, disabled, onRescan }: R
             {shortenPath(root, 60)}
           </span>
         </p>
+        {filter && (
+          <p className={styles.filter}>
+            Showing {filter} only ·{' '}
+            <button type="button" className={styles.clear} onClick={onClearFilter}>
+              Show all
+            </button>
+          </p>
+        )}
       </div>
       <Button onClick={onRescan} disabled={disabled}>
         <RefreshIcon />
