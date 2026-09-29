@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Type-checks, tests and builds the Apple Silicon (arm64) DMG, then writes its SHA256 checksum into
 # release/. Expects dependencies to be installed already (npm ci).
-# Used by scripts/release.sh locally and by .github/workflows/release.yml in CI.
+# Used by .github/workflows/release.yml; run it locally to try a full release build.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
