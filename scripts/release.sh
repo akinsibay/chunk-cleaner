@@ -31,5 +31,5 @@ Local build OK. To publish v$version:
   git tag v$version
   git push origin main v$version
 
-GitHub Actions then builds the DMG, creates the release and updates the Homebrew tap.
+GitHub Actions then builds the DMG and publishes the GitHub Release.
 SUMMARY

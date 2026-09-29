@@ -17,18 +17,6 @@ It only lists folders it can prove belong to a project, and it only ever moves t
 
 **Requirements:** macOS 13 (Ventura) or later, on Apple Silicon or Intel.
 
-### Homebrew
-
-```sh
-brew install --cask akinsibay/tap/chunkcleaner
-```
-
-This uses a personal tap and skips the "Open Anyway" step below.
-
-> Homebrew's main cask repository no longer accepts apps that aren't signed and notarized by Apple (casks that fail Gatekeeper have been disabled since September 2026). Personal taps like this one are unaffected.
-
-### DMG
-
 1. Download `ChunkCleaner-<version>-universal.dmg` from the [latest release](https://github.com/akinsibay/chunk-cleaner/releases/latest).
 2. Open it and drag **ChunkCleaner** into **Applications**.
 3. Follow [First launch](#first-launch-unsigned-app) once.
@@ -112,16 +100,13 @@ Because the app is not signed with an Apple Developer ID, macOS may forget this 
 
 ChunkCleaner can't update itself (that requires an Apple-signed app). Once a day it asks GitHub whether a newer release exists and, if so, shows a banner with a **Download** button. You can also use **Check for Updates…** in the app or menu bar menu. Turn this off in Settings if you prefer.
 
-- Homebrew: `brew upgrade --cask chunkcleaner`
-- DMG: download the new DMG and replace the app in Applications.
+To update, download the new DMG and replace the app in Applications.
 
 ## Uninstall
 
 1. Quit ChunkCleaner (⌘Q or the menu bar icon → Quit).
 2. Drag **ChunkCleaner** from Applications to the Trash.
 3. Optionally delete its settings: `~/Library/Application Support/ChunkCleaner`.
-
-With Homebrew: `brew uninstall --cask --zap chunkcleaner` does all of the above.
 
 If you enabled **Open at login**, turn it off in Settings first, or remove ChunkCleaner in System Settings → General → Login Items afterwards.
 

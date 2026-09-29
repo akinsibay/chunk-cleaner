@@ -27,7 +27,6 @@ If `npm start` behaves like plain Node (for example `app` is undefined), your sh
 | `web/` | The React interface (Vite, CSS Modules). It has no Node.js access. |
 | `test/` | Vitest tests. They build real folder trees in temporary directories. |
 | `build/` | App icon sources. Regenerate the PNGs with `npx electron scripts/render-icons.cjs`. |
-| `packaging/homebrew/` | Cask template filled in by `scripts/package.sh`. |
 | `.github/workflows/` | CI for pull requests and the tag-triggered release (see [docs/RELEASING.md](docs/RELEASING.md)). |
 
 ## Adding an ecosystem

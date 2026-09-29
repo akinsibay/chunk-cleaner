@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Type-checks, tests and builds the universal DMG, then writes its SHA256 checksum and the
-# Homebrew cask into release/. Expects dependencies to be installed already (npm ci).
+# Type-checks, tests and builds the universal DMG, then writes its SHA256 checksum into
+# release/. Expects dependencies to be installed already (npm ci).
 # Used by scripts/release.sh locally and by .github/workflows/release.yml in CI.
 set -euo pipefail
 
@@ -36,7 +36,6 @@ codesign --verify --deep --strict "$app"
 
 (cd release && shasum -a 256 "$dmg_name" > "$dmg_name.sha256")
 sha="$(cut -d ' ' -f 1 "release/$dmg_name.sha256")"
-sed -e "s/__VERSION__/$version/" -e "s/__SHA256__/$sha/" packaging/homebrew/chunkcleaner.rb > release/chunkcleaner.rb
 
 echo "Verified: $archs, $signature"
 echo "Built release/$dmg_name ($sha)"
