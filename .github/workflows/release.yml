@@ -43,8 +43,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "$TAG" \
-            "release/ChunkCleaner-$VERSION-universal.dmg" \
-            "release/ChunkCleaner-$VERSION-universal.dmg.sha256" \
+            "release/ChunkCleaner-$VERSION-arm64.dmg" \
+            "release/ChunkCleaner-$VERSION-arm64.dmg.sha256" \
             --title "ChunkCleaner $VERSION" \
             --generate-notes \
             --verify-tag

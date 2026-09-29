@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/akinsibay/chunk-cleaner)](https://github.com/akinsibay/chunk-cleaner/releases/latest)
 ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-lightgrey)
-![Universal](https://img.shields.io/badge/Apple%20Silicon%20%2B%20Intel-universal-8b5cf6)
+![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-arm64-8b5cf6)
 
 A small Mac app that finds the big, regenerable folders your projects leave behind — `node_modules`, Rust and Maven `target`, Python virtualenvs, Unity `Library`, `Pods`, `.next`, Gradle `build` — and moves them to the Trash in a few clicks.
 
@@ -15,9 +15,9 @@ It only lists folders it can prove belong to a project, and it only ever moves t
 
 ## Install
 
-**Requirements:** macOS 13 (Ventura) or later, on Apple Silicon or Intel.
+**Requirements:** macOS 13 (Ventura) or later on an Apple Silicon Mac (M1 or newer). Intel Macs are not supported.
 
-1. Download `ChunkCleaner-<version>-universal.dmg` from the [latest release](https://github.com/akinsibay/chunk-cleaner/releases/latest).
+1. Download `ChunkCleaner-<version>-arm64.dmg` from the [latest release](https://github.com/akinsibay/chunk-cleaner/releases/latest).
 2. Open it and drag **ChunkCleaner** into **Applications**.
 3. Follow [First launch](#first-launch-unsigned-app) once.
 
@@ -27,7 +27,7 @@ It only lists folders it can prove belong to a project, and it only ever moves t
 Each release has a `.sha256` file next to the DMG:
 
 ```sh
-shasum -a 256 -c ChunkCleaner-<version>-universal.dmg.sha256
+shasum -a 256 -c ChunkCleaner-<version>-arm64.dmg.sha256
 ```
 
 </details>
@@ -119,7 +119,7 @@ git clone https://github.com/akinsibay/chunk-cleaner.git
 cd chunk-cleaner
 npm ci
 npm start            # builds and runs the app
-npm run dist         # builds release/ChunkCleaner-<version>-universal.dmg
+npm run dist         # builds release/ChunkCleaner-<version>-arm64.dmg
 ```
 
 Apps you build yourself aren't quarantined, so macOS won't show the unsigned-app warning. Run the tests with `npm test` and the type checks with `npm run typecheck`.

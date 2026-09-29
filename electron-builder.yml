@@ -17,7 +17,7 @@ asar: true
 mac:
   target:
     - target: dmg
-      arch: universal
+      arch: arm64
   category: public.app-category.developer-tools
   icon: build/icon.png
   # No Apple Developer ID: ad-hoc sign so the app runs on Apple Silicon.
@@ -29,7 +29,7 @@ mac:
     NSHumanReadableCopyright: Copyright © 2026 Akin Sibay
 
 dmg:
-  artifactName: ${productName}-${version}-universal.${ext}
+  artifactName: ${productName}-${version}-arm64.${ext}
   title: ${productName} ${version}
   contents:
     - x: 150

@@ -27,7 +27,7 @@
     "start": "npm run build && electron .",
     "typecheck": "tsc -p tsconfig.json && tsc -p web/tsconfig.json",
     "test": "vitest run",
-    "dist": "npm run build && electron-builder --mac --universal",
+    "dist": "npm run build && electron-builder --mac --arm64",
     "release": "scripts/release.sh"
   },
   "devDependencies": {

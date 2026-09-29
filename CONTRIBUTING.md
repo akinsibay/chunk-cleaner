@@ -11,7 +11,7 @@ npm ci
 npm start           # builds everything and opens the app
 npm test            # unit tests (Vitest)
 npm run typecheck   # TypeScript, main process and UI
-npm run dist        # universal DMG in release/
+npm run dist        # Apple Silicon DMG in release/
 ```
 
 If `npm start` behaves like plain Node (for example `app` is undefined), your shell has `ELECTRON_RUN_AS_NODE` set; run `unset ELECTRON_RUN_AS_NODE` first.
