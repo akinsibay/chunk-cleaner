@@ -10,6 +10,7 @@ import {
 import { errorMessage } from '../api/client';
 import { Button } from './Button';
 import { EcosystemSettings } from './EcosystemSettings';
+import { IgnoredProjects } from './IgnoredProjects';
 import { Modal } from './Modal';
 import styles from './SettingsDialog.module.css';
 
@@ -37,7 +38,13 @@ type TabId = (typeof TABS)[number]['id'];
 
 type Draft = Pick<
   Settings,
-  'minSizeMB' | 'minProjectAgeDays' | 'includeRecentProjects' | 'checkForUpdates' | 'disabledEcosystems' | 'enabledEcosystems'
+  | 'minSizeMB'
+  | 'minProjectAgeDays'
+  | 'includeRecentProjects'
+  | 'checkForUpdates'
+  | 'disabledEcosystems'
+  | 'enabledEcosystems'
+  | 'ignoredProjects'
 > & {
   openAtLogin: boolean;
 };
@@ -70,6 +77,7 @@ export function SettingsDialog({
         checkForUpdates: settings.checkForUpdates,
         disabledEcosystems: settings.disabledEcosystems,
         enabledEcosystems: settings.enabledEcosystems,
+        ignoredProjects: settings.ignoredProjects,
         openAtLogin: appInfo?.openAtLogin ?? false,
       });
       setError(null);
@@ -206,6 +214,11 @@ export function SettingsDialog({
               Last activity is the newest change anywhere in the project, ignoring the dependency folders themselves and .git.
             </p>
           </fieldset>
+
+          <IgnoredProjects
+            paths={draft.ignoredProjects}
+            onRemove={(path) => setDraft((d) => ({ ...d, ignoredProjects: d.ignoredProjects.filter((entry) => entry !== path) }))}
+          />
         </div>
 
         <div

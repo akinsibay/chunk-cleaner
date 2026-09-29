@@ -1,0 +1,49 @@
+.field {
+  display: grid;
+  gap: 6px;
+  border: none;
+  margin: 0;
+  padding: 0;
+  /* Fieldsets default to min-content width, which lets a long path widen the whole dialog. */
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.label {
+  font-weight: 600;
+}
+
+.help {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 6px 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+}
+
+.path {
+  flex: 1;
+  min-width: 0;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

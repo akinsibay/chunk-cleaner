@@ -23,5 +23,12 @@ export function useSettings() {
     return saved;
   }, []);
 
-  return { settings, error, save };
+  /** Adds the item's project to the ignore list; the main process also drops it from the last scan. */
+  const ignoreProject = useCallback(async (itemId: string) => {
+    const saved = await api.ignoreProject(itemId);
+    setSettings(saved);
+    return saved;
+  }, []);
+
+  return { settings, error, save, ignoreProject };
 }

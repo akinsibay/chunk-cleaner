@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { scan, type ChunkItem, type ScanOptions, type ScanProgress } from '../core/index.js';
+import { isInside, scan, type ChunkItem, type ScanOptions, type ScanProgress } from '../core/index.js';
 import type { ScanStateDto, ScanStatus } from '../shared/api.js';
 
 const UNREADABLE_SAMPLE_SIZE = 20;
@@ -113,6 +113,13 @@ export class ScanSession {
       else missing.push(id);
     }
     return { root: run.root, items, missing };
+  }
+
+  /** Ids of finished-scan items whose project is `path` or lies inside it. */
+  idsInProject(path: string): string[] {
+    const run = this.run;
+    if (!run || run.status !== 'done') return [];
+    return run.items.filter((item) => item.projectPath === path || isInside(item.projectPath, path)).map((item) => item.id);
   }
 
   remove(ids: readonly string[]): void {

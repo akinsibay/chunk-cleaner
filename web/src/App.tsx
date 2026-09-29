@@ -62,6 +62,14 @@ export function App() {
     api.reveal(id).catch((err: unknown) => setActionError(errorMessage(err)));
   };
 
+  const ignoreProject = (id: string) => {
+    setActionError(null);
+    settingsState
+      .ignoreProject(id)
+      .then(() => scanState.refresh())
+      .catch((err: unknown) => setActionError(errorMessage(err)));
+  };
+
   const confirmTrash = async () => {
     setConfirmOpen(false);
     const result = await trashState.trash(results.checkedItems.map((item) => item.id));
@@ -114,6 +122,7 @@ export function App() {
           onToggle={results.toggle}
           onToggleAll={results.setAll}
           onReveal={reveal}
+          onIgnoreProject={ignoreProject}
         />
         <BottomBar
           totalCount={results.visibleCount}

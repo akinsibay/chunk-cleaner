@@ -208,4 +208,23 @@ describe('scan', () => {
 
     expect(result.items.map((item) => item.folderName)).toEqual(['.next']);
   });
+
+  it('skips ignored projects and everything inside them', async () => {
+    const kept = await nodeProject(join(root, 'kept'));
+    await nodeProject(join(root, 'ignored'));
+    await nodeProject(join(root, 'ignored', 'packages', 'nested'));
+
+    const result = await scan(root, { ...options, ignoredPaths: [join(root, 'ignored')] });
+
+    expect(paths(result)).toEqual([kept]);
+  });
+
+  it('does not treat a sibling with a similar name as ignored', async () => {
+    await nodeProject(join(root, 'app'));
+    const sibling = await nodeProject(join(root, 'app-v2'));
+
+    const result = await scan(root, { ...options, ignoredPaths: [join(root, 'app')] });
+
+    expect(paths(result)).toEqual([sibling]);
+  });
 });

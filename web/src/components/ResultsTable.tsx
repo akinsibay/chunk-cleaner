@@ -15,6 +15,7 @@ interface ResultsTableProps {
   onToggle: (id: string) => void;
   onToggleAll: (value: boolean) => void;
   onReveal: (id: string) => void;
+  onIgnoreProject: (id: string) => void;
 }
 
 const COLUMNS: Array<{ key: SortKey; label: string; numeric?: boolean }> = [
@@ -24,7 +25,17 @@ const COLUMNS: Array<{ key: SortKey; label: string; numeric?: boolean }> = [
   { key: 'sizeBytes', label: 'Size', numeric: true },
 ];
 
-export function ResultsTable({ root, items, checked, sortOrder, onSort, onToggle, onToggleAll, onReveal }: ResultsTableProps) {
+export function ResultsTable({
+  root,
+  items,
+  checked,
+  sortOrder,
+  onSort,
+  onToggle,
+  onToggleAll,
+  onReveal,
+  onIgnoreProject,
+}: ResultsTableProps) {
   const [menu, setMenu] = useState<{ id: string; position: ContextMenuPosition } | null>(null);
   const closeMenu = useCallback(() => setMenu(null), []);
 
@@ -121,7 +132,10 @@ export function ResultsTable({ root, items, checked, sortOrder, onSort, onToggle
       {menu && (
         <ContextMenu
           position={menu.position}
-          items={[{ label: 'Show in Finder', onSelect: () => onReveal(menu.id) }]}
+          items={[
+            { label: 'Show in Finder', onSelect: () => onReveal(menu.id) },
+            { label: 'Ignore This Project', onSelect: () => onIgnoreProject(menu.id) },
+          ]}
           onClose={closeMenu}
         />
       )}

@@ -21,6 +21,8 @@ export interface ScanOptions {
   rules?: readonly ChunkRule[];
   /** Folders of these ecosystems are neither listed nor descended into. */
   disabledEcosystems?: readonly string[];
+  /** Folders the user chose to ignore; they and everything inside them are never looked at. */
+  ignoredPaths?: readonly string[];
   home?: string;
   now?: number;
 }
@@ -67,7 +69,7 @@ export async function scan(root: string, options: ScanOptions, hooks: ScanHooks 
   const disabled = new Set(options.disabledEcosystems ?? []);
   const enabledRules = rules.filter((rule) => !disabled.has(rule.ecosystem));
   const disabledRules = rules.filter((rule) => disabled.has(rule.ecosystem));
-  const skipList = await realSkipList(options.home ?? homedir());
+  const skipList = [...(await realSkipList(options.home ?? homedir())), ...(options.ignoredPaths ?? [])];
   const unreadable = new Set<string>();
   const context: WalkContext = {
     limit: createLimiter(FILE_CONCURRENCY),

@@ -148,6 +148,36 @@ describe('IPC handlers', () => {
     });
   });
 
+  it('ignores a project: drops it and its sub-projects from the results and from later scans', async () => {
+    await touch(join(root, 'projects', 'mono', 'package.json'));
+    await touch(join(root, 'projects', 'mono', 'node_modules', 'dep', 'index.js'));
+    await touch(join(root, 'projects', 'mono', 'packages', 'ui', 'package.json'));
+    await touch(join(root, 'projects', 'mono', 'packages', 'ui', 'node_modules', 'dep', 'index.js'));
+    await touch(join(root, 'projects', 'other', 'package.json'));
+    await touch(join(root, 'projects', 'other', 'node_modules', 'dep', 'index.js'));
+    await handlers.updateSettings({ minSizeMB: 0, includeRecentProjects: true });
+
+    const { scanId } = await handlers.startScan(join(root, 'projects'));
+    const state = await waitForScan(scanId);
+    const mono = state.items.find((item) => item.projectPath === join(root, 'projects', 'mono'))!;
+
+    await expect(handlers.ignoreProject('made-up')).rejects.toBeInstanceOf(IpcUserError);
+    await expect(handlers.ignoreProject(mono.path)).rejects.toBeInstanceOf(IpcUserError);
+
+    const settings = await handlers.ignoreProject(mono.id);
+    expect(settings.ignoredProjects).toEqual([join(root, 'projects', 'mono')]);
+    expect((await handlers.getScan(scanId)).items.map((item) => item.projectPath)).toEqual([join(root, 'projects', 'other')]);
+
+    const rescan = await waitForScan((await handlers.startScan(join(root, 'projects'))).scanId);
+    expect(rescan.items.map((item) => item.projectPath)).toEqual([join(root, 'projects', 'other')]);
+  });
+
+  it('validates ignored project paths', async () => {
+    await expect(handlers.updateSettings({ ignoredProjects: ['relative/path'] })).rejects.toBeInstanceOf(IpcUserError);
+    await expect(handlers.updateSettings({ ignoredProjects: '/a' })).rejects.toBeInstanceOf(IpcUserError);
+    await expect(handlers.updateSettings({ ignoredProjects: ['/a', '/a'] })).resolves.toMatchObject({ ignoredProjects: ['/a'] });
+  });
+
   it('only opens ChunkCleaner release pages', async () => {
     await expect(handlers.openReleasePage('https://evil.example.com/')).rejects.toBeInstanceOf(IpcUserError);
     await expect(handlers.openReleasePage('https://github.com/akinsibay/chunk-cleaner.evil.com/releases/')).rejects.toBeInstanceOf(

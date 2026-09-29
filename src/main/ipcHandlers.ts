@@ -88,6 +88,7 @@ export function createIpcHandlers(deps: IpcDependencies): IpcHandlers {
         minSizeBytes: settings.minSizeMB * MB,
         minProjectAgeDays: settings.includeRecentProjects ? null : settings.minProjectAgeDays,
         disabledEcosystems,
+        ignoredPaths: settings.ignoredProjects,
         home: deps.home,
       });
       return { scanId, root: resolved };
@@ -123,6 +124,15 @@ export function createIpcHandlers(deps: IpcDependencies): IpcHandlers {
       if (!item) throw new IpcUserError('Item not found in the last scan.');
       await deps.reveal(item.path);
       return null;
+    },
+
+    async ignoreProject(id) {
+      const item = deps.session.resolveItems([requireString(id, 'id')])?.items[0];
+      if (!item) throw new IpcUserError('Item not found in the last scan.');
+      const { ignoredProjects } = await deps.settings.load();
+      const settings = await deps.settings.update({ ignoredProjects: [...ignoredProjects, item.projectPath] });
+      deps.session.remove(deps.session.idsInProject(item.projectPath));
+      return settings;
     },
 
     getEcosystems: async () => summarizeEcosystems(),

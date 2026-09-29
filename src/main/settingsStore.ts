@@ -4,6 +4,8 @@ import { DEFAULT_SETTINGS, SETTINGS_LIMITS, type Settings } from '../shared/api.
 
 const MAX_ECOSYSTEMS = 100;
 const MAX_ECOSYSTEM_NAME = 64;
+const MAX_IGNORED_PROJECTS = 500;
+const MAX_PATH_LENGTH = 4096;
 
 export class SettingsValidationError extends Error {}
 
@@ -60,6 +62,16 @@ function parsePatch(patch: unknown): Partial<Settings> {
           throw new SettingsValidationError(`${key} must be a list of ecosystem names.`);
         }
         result[key] = [...new Set(value as string[])];
+        break;
+      case 'ignoredProjects':
+        if (
+          !Array.isArray(value) ||
+          value.length > MAX_IGNORED_PROJECTS ||
+          !value.every((path) => typeof path === 'string' && path.startsWith('/') && path.length <= MAX_PATH_LENGTH)
+        ) {
+          throw new SettingsValidationError('ignoredProjects must be a list of absolute paths.');
+        }
+        result.ignoredProjects = [...new Set(value as string[])];
         break;
       case 'includeRecentProjects':
       case 'checkForUpdates':

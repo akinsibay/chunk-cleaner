@@ -48,5 +48,15 @@ export function useScan() {
     }
   }, []);
 
-  return { scan, starting, error, start, cancel };
+  /** Re-reads the current scan, e.g. after the main process removed items from it. */
+  const refresh = useCallback(async () => {
+    if (!activeId.current) return;
+    try {
+      setScan(await api.getScan(activeId.current));
+    } catch (err) {
+      setError(errorMessage(err));
+    }
+  }, []);
+
+  return { scan, starting, error, start, cancel, refresh };
 }

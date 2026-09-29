@@ -21,6 +21,7 @@ export const api = {
   cancelScan: (id: string) => unwrap(bridge().cancelScan(id)),
   trash: (ids: string[]) => unwrap(bridge().trash(ids)),
   reveal: (id: string) => unwrap(bridge().reveal(id)),
+  ignoreProject: (id: string) => unwrap(bridge().ignoreProject(id)),
   getEcosystems: () => unwrap(bridge().getEcosystems()),
   getAppInfo: () => unwrap(bridge().getAppInfo()),
   setOpenAtLogin: (enabled: boolean) => unwrap(bridge().setOpenAtLogin(enabled)),

@@ -54,7 +54,7 @@ xattr -dr com.apple.quarantine /Applications/ChunkCleaner.app
 ## Usage
 
 1. Click **Choose Folder…** (or type a path such as `~/Projects`) and press the big **Scan** button. You can cancel at any time.
-2. Review the list. Sort by any column; right-click a row for **Show in Finder**. Click an ecosystem under **Found** in the sidebar to show only that ecosystem (click it again to show all). Only visible rows are moved to the Trash.
+2. Review the list. Sort by any column; right-click a row for **Show in Finder**. Click an ecosystem under **Found** in the sidebar to show only that ecosystem (click it again to show all). Only visible rows are moved to the Trash. Right-click a row and choose **Ignore This Project** to hide a project you want to keep as it is; it won't show up in future scans.
 3. Tick the folders you want gone and click **Move to Trash**. You'll see how many folders and how much space before anything happens.
 
 Closing the window keeps ChunkCleaner in the menu bar, where it shows your last scan. Quit with **⌘Q** or from the menu bar icon.
@@ -93,6 +93,7 @@ Click **Settings** in the sidebar:
 
 - **Scan → Minimum folder size** (default 200 MB): smaller folders are not listed.
 - **Scan → Project age** (default 30 days): only projects with no changes in that time are listed. "Last activity" is the newest change anywhere in the project, ignoring the dependency folders themselves and `.git`. Tick **Include recently used projects** to list everything.
+- **Scan → Ignored projects**: projects you ignored from the results list. They and everything inside them are skipped; click **Remove** to see them again.
 - **Ecosystems**: turn each ecosystem on or off and see exactly which folders and marker files it checks. All are on by default except Composer.
 - **General → Open at login**: starts ChunkCleaner quietly in the menu bar when you log in. macOS may ask you to allow it in System Settings → General → Login Items.
 - **General → Check for updates automatically**: see [Updates](#updates).

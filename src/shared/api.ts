@@ -10,6 +10,8 @@ export interface Settings {
   disabledEcosystems: string[];
   /** Off-by-default ecosystems (such as Composer) the user turned on. */
   enabledEcosystems: string[];
+  /** Absolute project paths the user chose to ignore, including everything inside them. */
+  ignoredProjects: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -20,6 +22,7 @@ export const DEFAULT_SETTINGS: Settings = {
   checkForUpdates: true,
   disabledEcosystems: [],
   enabledEcosystems: [],
+  ignoredProjects: [],
 };
 
 export const SETTINGS_LIMITS = {
@@ -136,6 +139,7 @@ export interface ChunkCleanerApi {
   cancelScan(id: string): Promise<IpcResult<null>>;
   trash(ids: string[]): Promise<IpcResult<TrashResponse>>;
   reveal(id: string): Promise<IpcResult<null>>;
+  ignoreProject(id: string): Promise<IpcResult<Settings>>;
   getEcosystems(): Promise<IpcResult<EcosystemInfo[]>>;
   getAppInfo(): Promise<IpcResult<AppInfo>>;
   setOpenAtLogin(enabled: boolean): Promise<IpcResult<AppInfo>>;
@@ -152,6 +156,7 @@ export const IPC_CHANNELS = {
   cancelScan: 'scan:cancel',
   trash: 'items:trash',
   reveal: 'items:reveal',
+  ignoreProject: 'items:ignore-project',
   getEcosystems: 'ecosystems:list',
   getAppInfo: 'app:info',
   setOpenAtLogin: 'app:set-open-at-login',
