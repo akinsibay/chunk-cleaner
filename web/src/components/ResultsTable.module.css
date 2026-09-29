@@ -1,0 +1,146 @@
+.wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 24px 110px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  font-size: 13px;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  white-space: nowrap;
+  background: var(--bg-base);
+  background: color-mix(in srgb, var(--bg-base) 88%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.table td {
+  padding: 10px 12px;
+  background: var(--glass);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+  transition: background 0.12s ease;
+}
+
+.table td:first-child {
+  border-left: 1px solid var(--glass-border);
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.table td:last-child {
+  border-right: 1px solid var(--glass-border);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.row {
+  cursor: default;
+}
+
+.row:hover td,
+.row:focus-within td {
+  background: var(--glass-hover);
+}
+
+.row:focus {
+  outline: none;
+}
+
+.row:focus-visible td {
+  box-shadow: inset 0 0 0 1px var(--focus);
+}
+
+.checkedRow td {
+  background: color-mix(in srgb, var(--accent) 14%, var(--glass));
+}
+
+.sortButton {
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 10px 12px;
+  text-align: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover,
+.activeSort {
+  color: var(--text-muted);
+}
+
+.checkCell {
+  width: 40px;
+}
+
+.table th.checkCell {
+  padding: 10px 12px;
+}
+
+.nameCell {
+  width: 100%;
+  max-width: 1px;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.nameText {
+  display: grid;
+  min-width: 0;
+}
+
+.projectName {
+  font-weight: 600;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.path {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.size {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.table th.numeric .sortButton {
+  text-align: right;
+}
+
+.muted {
+  color: var(--text-muted);
+}

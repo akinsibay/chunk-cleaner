@@ -1,0 +1,50 @@
+{
+  "name": "chunkcleaner",
+  "productName": "ChunkCleaner",
+  "version": "0.1.0",
+  "description": "A small macOS app that finds large, regenerable dependency and build folders (node_modules, target, .venv, Pods, …) and moves them to the Trash.",
+  "license": "MIT",
+  "author": "Akin Sibay",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akinsibay/chunk-cleaner.git"
+  },
+  "homepage": "https://github.com/akinsibay/chunk-cleaner#readme",
+  "bugs": "https://github.com/akinsibay/chunk-cleaner/issues",
+  "keywords": [
+    "node_modules",
+    "cleanup",
+    "disk-space",
+    "macos",
+    "trash"
+  ],
+  "type": "module",
+  "main": "dist/main/main.cjs",
+  "scripts": {
+    "build": "npm run build:web && npm run build:main",
+    "build:web": "vite build --config web/vite.config.ts",
+    "build:main": "tsup",
+    "start": "npm run build && electron .",
+    "typecheck": "tsc -p tsconfig.json && tsc -p web/tsconfig.json",
+    "test": "vitest run",
+    "dist": "npm run build && electron-builder --mac --universal",
+    "release": "scripts/release.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tsup": "^8.5.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}

@@ -1,0 +1,56 @@
+.badge {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%);
+}
+
+.small {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  font-size: 10px;
+}
+
+.node {
+  background: linear-gradient(135deg, #5fb832, #2f8a3a);
+}
+
+.rust {
+  background: linear-gradient(135deg, #f0883e, #b7410e);
+}
+
+.maven {
+  background: linear-gradient(135deg, #e0475b, #9c1f3a);
+}
+
+.python {
+  background: linear-gradient(135deg, #3f7cc4, #f2c12e);
+}
+
+.unity {
+  background: linear-gradient(135deg, #6b6b78, #2c2c35);
+}
+
+.cocoapods {
+  background: linear-gradient(135deg, #ff5a5f, #c2185b);
+}
+
+.next {
+  background: linear-gradient(135deg, #3a3a3a, #000);
+}
+
+.gradle {
+  background: linear-gradient(135deg, #19a6a0, #0b6b77);
+}
+
+.other {
+  background: linear-gradient(135deg, #8b5cf6, #22b8dc);
+}

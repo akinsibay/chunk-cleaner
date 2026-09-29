@@ -1,0 +1,17 @@
+.failures {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  max-height: 180px;
+  overflow: auto;
+  font-size: 12px;
+}
+
+.failurePath {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  word-break: break-all;
+}
+
+.note {
+  color: var(--text-muted);
+  font-size: 13px;
+}

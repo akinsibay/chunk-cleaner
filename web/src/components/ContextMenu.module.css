@@ -1,0 +1,31 @@
+.menu {
+  position: fixed;
+  left: var(--menu-x, 0);
+  top: var(--menu-y, 0);
+  z-index: 10;
+  min-width: 170px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--popover);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-strong);
+}
+
+.item {
+  width: 100%;
+  border: none;
+  background: none;
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus {
+  background: var(--accent);
+  color: var(--accent-text);
+  outline: none;
+}

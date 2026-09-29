@@ -1,0 +1,114 @@
+:root {
+  --bg-base: #f4f2fb;
+  --bg-glow-1: rgb(139 92 246 / 22%);
+  --bg-glow-2: rgb(34 195 230 / 20%);
+  --glass: rgb(255 255 255 / 62%);
+  --glass-strong: rgb(255 255 255 / 82%);
+  --glass-hover: rgb(255 255 255 / 92%);
+  --glass-border: rgb(30 20 70 / 9%);
+  --sidebar: rgb(255 255 255 / 45%);
+  --popover: #fcfbff;
+  --text: #1c1830;
+  --text-muted: rgb(28 24 48 / 58%);
+  --text-faint: rgb(28 24 48 / 38%);
+  --accent: #7c5cff;
+  --accent-2: #22b8dc;
+  --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #22b8dc 100%);
+  --accent-text: #ffffff;
+  --danger: #f0445a;
+  --danger-gradient: linear-gradient(135deg, #ff4d6d 0%, #ff8a4c 100%);
+  --danger-text: #ffffff;
+  --warning-bg: rgb(255 196 61 / 18%);
+  --warning-border: rgb(214 150 0 / 35%);
+  --focus: #7c5cff;
+  --shadow: 0 10px 30px rgb(40 20 90 / 12%);
+  --shadow-strong: 0 24px 60px rgb(40 20 90 / 25%);
+  --radius: 14px;
+  --radius-sm: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-base: #120f1d;
+    --bg-glow-1: rgb(124 77 255 / 38%);
+    --bg-glow-2: rgb(18 160 190 / 30%);
+    --glass: rgb(255 255 255 / 6%);
+    --glass-strong: rgb(255 255 255 / 10%);
+    --glass-hover: rgb(255 255 255 / 14%);
+    --glass-border: rgb(255 255 255 / 10%);
+    --sidebar: rgb(10 8 20 / 35%);
+    --popover: #231e35;
+    --text: #f4f2ff;
+    --text-muted: rgb(244 242 255 / 62%);
+    --text-faint: rgb(244 242 255 / 38%);
+    --accent: #9b7bff;
+    --warning-bg: rgb(255 196 61 / 12%);
+    --warning-border: rgb(255 196 61 / 28%);
+    --focus: #a98cff;
+    --shadow: 0 10px 30px rgb(0 0 0 / 30%);
+    --shadow-strong: 0 24px 60px rgb(0 0 0 / 50%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 60% 55% at 15% 0%, var(--bg-glow-1), transparent 70%),
+    radial-gradient(ellipse 55% 50% at 100% 100%, var(--bg-glow-2), transparent 70%),
+    var(--bg-base);
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+input[type='checkbox'] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glass-strong);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

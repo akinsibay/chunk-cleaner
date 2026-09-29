@@ -1,0 +1,45 @@
+appId: com.akin.chunkcleaner
+productName: ChunkCleaner
+copyright: Copyright © 2026 Akin Sibay
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/main/**/*
+  - dist/web/**/*
+  - assets/**/*
+  - package.json
+
+asar: true
+
+mac:
+  target:
+    - target: dmg
+      arch: universal
+  category: public.app-category.developer-tools
+  icon: build/icon.png
+  # No Apple Developer ID: ad-hoc sign so the app runs on Apple Silicon.
+  identity: '-'
+  hardenedRuntime: false
+  gatekeeperAssess: false
+  notarize: false
+  extendInfo:
+    NSHumanReadableCopyright: Copyright © 2026 Akin Sibay
+
+dmg:
+  artifactName: ${productName}-${version}-universal.${ext}
+  title: ${productName} ${version}
+  contents:
+    - x: 150
+      y: 190
+    - x: 450
+      y: 190
+      type: link
+      path: /Applications
+  window:
+    width: 600
+    height: 400
+
+publish: null

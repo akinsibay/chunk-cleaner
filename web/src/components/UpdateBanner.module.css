@@ -1,0 +1,33 @@
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 24px 0;
+  padding: 10px 12px 10px 16px;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 14%, var(--glass));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+}
+
+.version {
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.dismiss {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 2px 6px;
+  color: var(--text-muted);
+}

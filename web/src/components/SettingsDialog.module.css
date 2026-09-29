@@ -1,0 +1,47 @@
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.number {
+  width: 90px;
+  padding: 4px 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  background: var(--glass-strong);
+  text-align: right;
+}
+
+.help {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.error {
+  color: var(--danger);
+  margin: 0;
+}
