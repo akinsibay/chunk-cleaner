@@ -19,6 +19,8 @@ export interface ScanOptions {
   /** null includes recently used projects. */
   minProjectAgeDays: number | null;
   rules?: readonly ChunkRule[];
+  /** Folders of these ecosystems are neither listed nor descended into. */
+  disabledEcosystems?: readonly string[];
   home?: string;
   now?: number;
 }
@@ -62,6 +64,9 @@ interface Candidate {
 /** Scans an already validated root (see resolveScanRoot) for chunk folders. */
 export async function scan(root: string, options: ScanOptions, hooks: ScanHooks = {}): Promise<ScanResult> {
   const rules = options.rules ?? DEFAULT_RULES;
+  const disabled = new Set(options.disabledEcosystems ?? []);
+  const enabledRules = rules.filter((rule) => !disabled.has(rule.ecosystem));
+  const disabledRules = rules.filter((rule) => disabled.has(rule.ecosystem));
   const skipList = await realSkipList(options.home ?? homedir());
   const unreadable = new Set<string>();
   const context: WalkContext = {
@@ -78,7 +83,7 @@ export async function scan(root: string, options: ScanOptions, hooks: ScanHooks 
   };
   const report = () => hooks.onProgress?.({ ...progress });
 
-  const candidates = await discover(root, rules, skipList, context, (dir) => {
+  const { candidates, pruned } = await discover(root, enabledRules, disabledRules, skipList, context, (dir) => {
     progress.directoriesVisited++;
     progress.currentPath = dir;
     report();
@@ -89,7 +94,7 @@ export async function scan(root: string, options: ScanOptions, hooks: ScanHooks 
   progress.phase = 'measuring';
   report();
 
-  const excluded = new Set(candidates.map((candidate) => candidate.path));
+  const excluded = new Set([...candidates.map((candidate) => candidate.path), ...pruned]);
   const activityByProject = new Map<string, Promise<number | null>>();
   const activityOf = (projectPath: string) => {
     let activity = activityByProject.get(projectPath);
@@ -140,16 +145,21 @@ export async function scan(root: string, options: ScanOptions, hooks: ScanHooks 
   };
 }
 
-/** Walks the tree without following symlinks and without descending into matches, `.git` or skipped paths. */
+/**
+ * Walks the tree without following symlinks and without descending into matches, `.git` or skipped paths.
+ * Folders matching a disabled rule are pruned too, so a turned-off `node_modules` is never walked.
+ */
 async function discover(
   root: string,
-  rules: readonly ChunkRule[],
+  enabledRules: readonly ChunkRule[],
+  disabledRules: readonly ChunkRule[],
   skipList: readonly string[],
   context: WalkContext,
   onDirectory: (dir: string) => void,
   onCandidate: () => void,
-): Promise<Candidate[]> {
+): Promise<{ candidates: Candidate[]; pruned: string[] }> {
   const candidates: Candidate[] = [];
+  const pruned: string[] = [];
 
   const visit = async (dir: string): Promise<void> => {
     context.signal?.throwIfAborted();
@@ -169,10 +179,12 @@ async function discover(
         if (!entry.isDirectory() || entry.name === '.git') return;
         const path = join(dir, entry.name);
         if (isSkipped(path, skipList)) return;
-        const rule = await context.limit(() => matchRule(dir, entry.name, rules));
+        const rule = await context.limit(() => matchRule(dir, entry.name, enabledRules));
         if (rule) {
           candidates.push({ path, projectPath: dir, folderName: entry.name, rule });
           onCandidate();
+        } else if (disabledRules.length > 0 && (await context.limit(() => matchRule(dir, entry.name, disabledRules)))) {
+          pruned.push(path);
         } else {
           subdirectories.push(path);
         }
@@ -182,5 +194,5 @@ async function discover(
   };
 
   await visit(root);
-  return candidates;
+  return { candidates, pruned };
 }

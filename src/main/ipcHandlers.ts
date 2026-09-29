@@ -1,4 +1,4 @@
-import { ScanRootError, resolveScanRoot, trashItems, type Trasher } from '../core/index.js';
+import { DEFAULT_RULES, ScanRootError, resolveScanRoot, summarizeEcosystems, trashItems, type Trasher } from '../core/index.js';
 import type { AppInfo, ChunkCleanerApi, IpcResult, PickFolderResponse, StartScanResponse, TrashResponse } from '../shared/api.js';
 import type { ScanSession } from './scanSession.js';
 import { SettingsValidationError, type SettingsStore } from './settingsStore.js';
@@ -71,9 +71,14 @@ export function createIpcHandlers(deps: IpcDependencies): IpcHandlers {
         throw error;
       }
       const settings = await deps.settings.update({ lastFolder: resolved });
+      const disabled = new Set(settings.disabledEcosystems);
+      if (DEFAULT_RULES.every((rule) => disabled.has(rule.ecosystem))) {
+        throw new IpcUserError('All ecosystems are turned off. Turn at least one on in Settings.');
+      }
       const scanId = deps.session.start(resolved, {
         minSizeBytes: settings.minSizeMB * MB,
         minProjectAgeDays: settings.includeRecentProjects ? null : settings.minProjectAgeDays,
+        disabledEcosystems: settings.disabledEcosystems,
         home: deps.home,
       });
       return { scanId, root: resolved };
@@ -110,6 +115,8 @@ export function createIpcHandlers(deps: IpcDependencies): IpcHandlers {
       await deps.reveal(item.path);
       return null;
     },
+
+    getEcosystems: async () => summarizeEcosystems(),
 
     getAppInfo: async () => appInfo(),
 

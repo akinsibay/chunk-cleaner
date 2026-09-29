@@ -4,7 +4,8 @@
   background: var(--popover);
   color: var(--text);
   padding: 24px 26px 20px;
-  width: min(460px, calc(100vw - 32px));
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
   box-shadow: var(--shadow-strong);
 }
 

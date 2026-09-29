@@ -6,7 +6,7 @@
 ![macOS 13+](https://img.shields.io/badge/macOS-13%2B-lightgrey)
 ![Apple Silicon](https://img.shields.io/badge/Apple%20Silicon-arm64-8b5cf6)
 
-A small Mac app that finds the big, regenerable folders your projects leave behind — `node_modules`, Rust and Maven `target`, Python virtualenvs, Unity `Library`, `Pods`, `.next`, Gradle `build` — and moves them to the Trash in a few clicks.
+A small Mac app that finds the big, regenerable folders your projects leave behind — `node_modules`, Rust and Maven `target`, Python virtualenvs, Unity `Library`, `Pods`, `.next`, Gradle `build`, .NET `bin`/`obj` — and moves them to the Trash in a few clicks.
 
 It only lists folders it can prove belong to a project, and it only ever moves them to the Trash, so everything can be restored.
 
@@ -72,15 +72,19 @@ A folder is only listed when its name **and** its marker file match. A `target` 
 | `Pods` | CocoaPods | `Podfile` next to it |
 | `.next` | Next.js | `next.config.*` or `package.json` next to it |
 | `build` | Gradle | `build.gradle` or `build.gradle.kts` next to it |
+| `bin`, `obj` | .NET | a `*.csproj`, `*.fsproj` or `*.vbproj` file next to it |
+
+You can turn whole ecosystems on or off in **Settings → Ecosystems**. A turned-off ecosystem is skipped entirely: its folders are never listed, measured or looked inside.
 
 ### Settings
 
 Click **Settings** in the sidebar:
 
-- **Minimum folder size** (default 200 MB): smaller folders are not listed.
-- **Project age** (default 30 days): only projects with no changes in that time are listed. "Last activity" is the newest change anywhere in the project, ignoring the dependency folders themselves and `.git`. Tick **Include recently used projects** to list everything.
-- **Open at login**: starts ChunkCleaner quietly in the menu bar when you log in. macOS may ask you to allow it in System Settings → General → Login Items.
-- **Check for updates automatically**: see [Updates](#updates).
+- **Scan → Minimum folder size** (default 200 MB): smaller folders are not listed.
+- **Scan → Project age** (default 30 days): only projects with no changes in that time are listed. "Last activity" is the newest change anywhere in the project, ignoring the dependency folders themselves and `.git`. Tick **Include recently used projects** to list everything.
+- **Ecosystems**: turn each ecosystem on or off and see exactly which folders and marker files it checks. All are on by default.
+- **General → Open at login**: starts ChunkCleaner quietly in the menu bar when you log in. macOS may ask you to allow it in System Settings → General → Login Items.
+- **General → Check for updates automatically**: see [Updates](#updates).
 
 ## Full Disk Access
 

@@ -111,6 +111,30 @@ describe('IPC handlers', () => {
     expect(await handlers.getSettings()).toMatchObject({ lastFolder: join(root, 'projects') });
   });
 
+  it('passes turned-off ecosystems to the scan and refuses to scan with all of them off', async () => {
+    await touch(join(root, 'projects', 'app', 'package.json'));
+    await touch(join(root, 'projects', 'app', 'node_modules', 'dep', 'index.js'));
+    await touch(join(root, 'projects', 'svc', 'Svc.csproj'));
+    await touch(join(root, 'projects', 'svc', 'bin', 'Debug', 'Svc.dll'));
+    await handlers.updateSettings({ minSizeMB: 0, includeRecentProjects: true, disabledEcosystems: ['Node.js'] });
+
+    const { scanId } = await handlers.startScan(join(root, 'projects'));
+    const state = await waitForScan(scanId);
+    expect(state.items.map((item) => item.ecosystem)).toEqual(['.NET']);
+
+    const everything = (await handlers.getEcosystems()).map((entry) => entry.ecosystem);
+    await handlers.updateSettings({ disabledEcosystems: everything });
+    await expect(handlers.startScan(join(root, 'projects'))).rejects.toThrow('All ecosystems are turned off');
+  });
+
+  it('validates the list of turned-off ecosystems', async () => {
+    await expect(handlers.updateSettings({ disabledEcosystems: 'Node.js' })).rejects.toBeInstanceOf(IpcUserError);
+    await expect(handlers.updateSettings({ disabledEcosystems: [42] })).rejects.toBeInstanceOf(IpcUserError);
+    await expect(handlers.updateSettings({ disabledEcosystems: ['Rust', 'Rust'] })).resolves.toMatchObject({
+      disabledEcosystems: ['Rust'],
+    });
+  });
+
   it('only opens ChunkCleaner release pages', async () => {
     await expect(handlers.openReleasePage('https://evil.example.com/')).rejects.toBeInstanceOf(IpcUserError);
     await expect(handlers.openReleasePage('https://github.com/akinsibay/chunk-cleaner.evil.com/releases/')).rejects.toBeInstanceOf(

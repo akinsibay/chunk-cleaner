@@ -13,6 +13,7 @@ import { UnreadableBanner } from './components/UnreadableBanner';
 import { UpdateBanner } from './components/UpdateBanner';
 import { formatBytes } from './format';
 import { useAppInfo } from './hooks/useAppInfo';
+import { useEcosystems } from './hooks/useEcosystems';
 import { useFolder } from './hooks/useFolder';
 import { useResults } from './hooks/useResults';
 import { useScan } from './hooks/useScan';
@@ -42,6 +43,7 @@ export function App() {
   const results = useResults(items);
   const trashState = useTrash();
   const appInfoState = useAppInfo();
+  const ecosystemState = useEcosystems();
   const updateState = useUpdate();
 
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -149,6 +151,8 @@ export function App() {
           open={settingsOpen}
           settings={settings}
           appInfo={appInfoState.info}
+          ecosystems={ecosystemState.ecosystems}
+          ecosystemsError={ecosystemState.error}
           onSave={settingsState.save}
           onSetOpenAtLogin={appInfoState.setOpenAtLogin}
           onClose={() => setSettingsOpen(false)}

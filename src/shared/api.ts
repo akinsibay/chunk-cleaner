@@ -6,6 +6,8 @@ export interface Settings {
   minProjectAgeDays: number;
   includeRecentProjects: boolean;
   checkForUpdates: boolean;
+  /** Ecosystems the user turned off; new ecosystems are on by default. */
+  disabledEcosystems: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -14,6 +16,7 @@ export const DEFAULT_SETTINGS: Settings = {
   minProjectAgeDays: 30,
   includeRecentProjects: false,
   checkForUpdates: true,
+  disabledEcosystems: [],
 };
 
 export const SETTINGS_LIMITS = {
@@ -66,6 +69,12 @@ export interface PickFolderResponse {
   path: string | null;
 }
 
+export interface EcosystemInfo {
+  ecosystem: string;
+  folderNames: string[];
+  conditions: string[];
+}
+
 export interface UpdateInfo {
   currentVersion: string;
   latestVersion: string;
@@ -97,6 +106,7 @@ export interface ChunkCleanerApi {
   cancelScan(id: string): Promise<IpcResult<null>>;
   trash(ids: string[]): Promise<IpcResult<TrashResponse>>;
   reveal(id: string): Promise<IpcResult<null>>;
+  getEcosystems(): Promise<IpcResult<EcosystemInfo[]>>;
   getAppInfo(): Promise<IpcResult<AppInfo>>;
   setOpenAtLogin(enabled: boolean): Promise<IpcResult<AppInfo>>;
   getUpdate(): Promise<IpcResult<UpdateInfo | null>>;
@@ -112,6 +122,7 @@ export const IPC_CHANNELS = {
   cancelScan: 'scan:cancel',
   trash: 'items:trash',
   reveal: 'items:reveal',
+  getEcosystems: 'ecosystems:list',
   getAppInfo: 'app:info',
   setOpenAtLogin: 'app:set-open-at-login',
   getUpdate: 'update:get',

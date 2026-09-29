@@ -1,4 +1,4 @@
-export type EcosystemTone = 'node' | 'rust' | 'maven' | 'python' | 'unity' | 'cocoapods' | 'next' | 'gradle' | 'other';
+export type EcosystemTone = 'node' | 'rust' | 'maven' | 'python' | 'unity' | 'cocoapods' | 'next' | 'gradle' | 'dotnet' | 'other';
 
 interface EcosystemMeta {
   abbreviation: string;
@@ -14,6 +14,7 @@ const ECOSYSTEMS: Record<string, EcosystemMeta> = {
   CocoaPods: { abbreviation: 'PD', tone: 'cocoapods' },
   'Next.js': { abbreviation: 'N', tone: 'next' },
   Gradle: { abbreviation: 'GR', tone: 'gradle' },
+  '.NET': { abbreviation: 'NET', tone: 'dotnet' },
 };
 
 export function ecosystemMeta(ecosystem: string): EcosystemMeta {

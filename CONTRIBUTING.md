@@ -37,6 +37,8 @@ Rules live in [`src/core/rules.ts`](src/core/rules.ts). Adding one is a single l
 { folderNames: ['vendor'], ecosystem: 'Composer', marker: parentFile('composer.json') },
 ```
 
+Marker helpers: `parentFile(...)` (exact file names next to the folder), `parentFilePrefix(...)` (for example `next.config.`), `parentFileExtension(...)` (for example `.csproj`), `parentDirectory(...)`, `selfFile(...)` (a file inside the folder) and `anyOf(...)`. The ecosystem automatically appears in **Settings → Ecosystems** with a description generated from its marker; add a badge for it in `web/src/ecosystems.ts`.
+
 Only add a rule when the folder is **fully regenerable** from files that stay in the project (a lock file or manifest). Pick a marker that proves the match; a folder name alone is never enough. Add a case to `test/rules.test.ts` and update the table in the README.
 
 ## Safety rules

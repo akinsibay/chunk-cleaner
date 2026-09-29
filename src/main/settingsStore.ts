@@ -2,6 +2,9 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { DEFAULT_SETTINGS, SETTINGS_LIMITS, type Settings } from '../shared/api.js';
 
+const MAX_ECOSYSTEMS = 100;
+const MAX_ECOSYSTEM_NAME = 64;
+
 export class SettingsValidationError extends Error {}
 
 export class SettingsStore {
@@ -47,6 +50,16 @@ function parsePatch(patch: unknown): Partial<Settings> {
         result[key] = value;
         break;
       }
+      case 'disabledEcosystems':
+        if (
+          !Array.isArray(value) ||
+          value.length > MAX_ECOSYSTEMS ||
+          !value.every((name) => typeof name === 'string' && name.length > 0 && name.length <= MAX_ECOSYSTEM_NAME)
+        ) {
+          throw new SettingsValidationError('disabledEcosystems must be a list of ecosystem names.');
+        }
+        result.disabledEcosystems = [...new Set(value as string[])];
+        break;
       case 'includeRecentProjects':
       case 'checkForUpdates':
         if (typeof value !== 'boolean') throw new SettingsValidationError(`${key} must be true or false.`);

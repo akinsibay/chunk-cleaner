@@ -174,4 +174,38 @@ describe('scan', () => {
 
     expect([...phases]).toEqual(['discovering', 'measuring']);
   });
+
+  it('skips turned-off ecosystems entirely, including what is inside their folders', async () => {
+    const modules = await nodeProject(join(root, 'app'));
+    await touch(join(modules, 'native', 'build.gradle'));
+    await touch(join(modules, 'native', 'build', 'out.bin'));
+    await touch(join(root, 'rust', 'Cargo.toml'));
+    const target = join(root, 'rust', 'target');
+    await touch(join(target, 'debug', 'app'));
+
+    const result = await scan(root, { ...options, disabledEcosystems: ['Node.js'] });
+
+    expect(paths(result)).toEqual([target]);
+  });
+
+  it('still finds an enabled ecosystem that shares a folder name with a turned-off one', async () => {
+    await touch(join(root, 'mixed', 'Cargo.toml'));
+    await touch(join(root, 'mixed', 'pom.xml'));
+    await touch(join(root, 'mixed', 'target', 'classes', 'App.class'));
+
+    const result = await scan(root, { ...options, disabledEcosystems: ['Rust'] });
+
+    expect(result.items.map((item) => item.ecosystem)).toEqual(['Maven']);
+  });
+
+  it('ignores activity inside turned-off folders when computing last activity', async () => {
+    await nodeProject(join(root, 'app'));
+    await touch(join(root, 'app', '.next', 'cache', 'x'));
+    await age(join(root, 'app'), 90);
+    await touch(join(root, 'app', 'node_modules', 'dep', 'fresh.js'));
+
+    const result = await scan(root, { ...options, minProjectAgeDays: 30, disabledEcosystems: ['Node.js'] });
+
+    expect(result.items.map((item) => item.folderName)).toEqual(['.next']);
+  });
 });

@@ -51,6 +51,11 @@
   background: linear-gradient(135deg, #19a6a0, #0b6b77);
 }
 
+.dotnet {
+  background: linear-gradient(135deg, #8e5cf0, #512bd4);
+  letter-spacing: -0.02em;
+}
+
 .other {
   background: linear-gradient(135deg, #64748b, #334155);
 }

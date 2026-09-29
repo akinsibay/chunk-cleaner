@@ -4,6 +4,7 @@ import { join } from 'node:path';
 export type MarkerRequirement =
   | { kind: 'parentFile'; names: readonly string[] }
   | { kind: 'parentFilePrefix'; prefix: string }
+  | { kind: 'parentFileExtension'; extensions: readonly string[] }
   | { kind: 'parentDirectory'; name: string }
   | { kind: 'selfFile'; name: string }
   | { kind: 'anyOf'; requirements: readonly MarkerRequirement[] };
@@ -16,6 +17,7 @@ export interface ChunkRule {
 
 const parentFile = (...names: string[]): MarkerRequirement => ({ kind: 'parentFile', names });
 const parentFilePrefix = (prefix: string): MarkerRequirement => ({ kind: 'parentFilePrefix', prefix });
+const parentFileExtension = (...extensions: string[]): MarkerRequirement => ({ kind: 'parentFileExtension', extensions });
 const parentDirectory = (name: string): MarkerRequirement => ({ kind: 'parentDirectory', name });
 const selfFile = (name: string): MarkerRequirement => ({ kind: 'selfFile', name });
 const anyOf = (...requirements: MarkerRequirement[]): MarkerRequirement => ({ kind: 'anyOf', requirements });
@@ -29,6 +31,7 @@ export const DEFAULT_RULES: readonly ChunkRule[] = [
   { folderNames: ['Pods'], ecosystem: 'CocoaPods', marker: parentFile('Podfile') },
   { folderNames: ['.next'], ecosystem: 'Next.js', marker: anyOf(parentFilePrefix('next.config.'), parentFile('package.json')) },
   { folderNames: ['build'], ecosystem: 'Gradle', marker: parentFile('build.gradle', 'build.gradle.kts') },
+  { folderNames: ['bin', 'obj'], ecosystem: '.NET', marker: parentFileExtension('.csproj', '.fsproj', '.vbproj') },
 ];
 
 /** Returns the first rule whose folder name and marker both match `projectPath/folderName`, or null. */
@@ -53,12 +56,9 @@ async function markerSatisfied(marker: MarkerRequirement, projectPath: string, f
       }
       return false;
     case 'parentFilePrefix':
-      try {
-        const entries = await readdir(projectPath, { withFileTypes: true });
-        return entries.some((entry) => entry.isFile() && entry.name.startsWith(marker.prefix));
-      } catch {
-        return false;
-      }
+      return parentHasFile(projectPath, (name) => name.startsWith(marker.prefix));
+    case 'parentFileExtension':
+      return parentHasFile(projectPath, (name) => marker.extensions.some((extension) => name.endsWith(extension)));
     case 'parentDirectory':
       return isDirectory(join(projectPath, marker.name));
     case 'selfFile':
@@ -68,6 +68,15 @@ async function markerSatisfied(marker: MarkerRequirement, projectPath: string, f
         if (await markerSatisfied(requirement, projectPath, folderPath)) return true;
       }
       return false;
+  }
+}
+
+async function parentHasFile(projectPath: string, predicate: (name: string) => boolean): Promise<boolean> {
+  try {
+    const entries = await readdir(projectPath, { withFileTypes: true });
+    return entries.some((entry) => entry.isFile() && predicate(entry.name));
+  } catch {
+    return false;
   }
 }
 
@@ -84,5 +93,47 @@ async function isDirectory(path: string): Promise<boolean> {
     return (await lstat(path)).isDirectory();
   } catch {
     return false;
+  }
+}
+
+export interface EcosystemSummary {
+  ecosystem: string;
+  folderNames: string[];
+  /** Human-readable conditions, one per rule, e.g. "node_modules with package.json next to it". */
+  conditions: string[];
+}
+
+/** One entry per ecosystem, in table order, for showing users what each ecosystem checks. */
+export function summarizeEcosystems(rules: readonly ChunkRule[] = DEFAULT_RULES): EcosystemSummary[] {
+  const summaries = new Map<string, EcosystemSummary>();
+  for (const rule of rules) {
+    const summary = summaries.get(rule.ecosystem) ?? { ecosystem: rule.ecosystem, folderNames: [], conditions: [] };
+    for (const name of rule.folderNames) {
+      if (!summary.folderNames.includes(name)) summary.folderNames.push(name);
+    }
+    summary.conditions.push(`${rule.folderNames.join(' or ')} with ${describeMarker(rule.marker)}`);
+    summaries.set(rule.ecosystem, summary);
+  }
+  return [...summaries.values()];
+}
+
+function listOr(items: readonly string[]): string {
+  return items.length <= 1 ? (items[0] ?? '') : `${items.slice(0, -1).join(', ')} or ${items.at(-1)}`;
+}
+
+function describeMarker(marker: MarkerRequirement): string {
+  switch (marker.kind) {
+    case 'parentFile':
+      return `${listOr(marker.names)} next to it`;
+    case 'parentFilePrefix':
+      return `${marker.prefix}* next to it`;
+    case 'parentFileExtension':
+      return `a ${listOr(marker.extensions.map((extension) => `*${extension}`))} file next to it`;
+    case 'parentDirectory':
+      return `a ${marker.name}/ folder next to it`;
+    case 'selfFile':
+      return `${marker.name} inside it`;
+    case 'anyOf':
+      return marker.requirements.map(describeMarker).join(', or ');
   }
 }
